@@ -209,27 +209,12 @@ body::before {
 </footer>
 
 <script>
-let nuked = false;
+let triggered = false;
 
-function detectDevTools() {
-  const widthDiff = window.outerWidth - window.innerWidth;
-  const heightDiff = window.outerHeight - window.innerHeight;
-
-  let start = performance.now();
-  debugger;
-  let end = performance.now();
-
-  return (
-    widthDiff > 160 ||
-    heightDiff > 160 ||
-    (end - start > 100)
-  );
-}
-
-function nukePage() {
+function blockPage() {
   document.documentElement.innerHTML = `
     <head>
-      <title>Blocked</title>
+      <title>ACCESS DENIED</title>
       <style>
         body {
           margin: 0;
@@ -243,11 +228,8 @@ function nukePage() {
           text-align: center;
         }
         h1 {
-          font-size: 70px;
+          font-size: 60px;
           text-shadow: 0 0 20px #00ffcc;
-        }
-        p {
-          opacity: 0.8;
         }
       </style>
     </head>
@@ -255,18 +237,47 @@ function nukePage() {
       <div>
         <h1>ACCESS DENIED</h1>
         <p>DevTools detected.</p>
-        <p>Reload lại nếu muốn quay về.</p>
+        <p>Hệ thống đã khóa quyền truy cập.</p>
       </div>
     </body>
   `;
 }
 
-setInterval(() => {
-  if (!nuked && detectDevTools()) {
-    nuked = true;
-    nukePage();
+document.addEventListener("keydown", function(e) {
+  if (
+    e.key === "F12" ||
+    (e.ctrlKey && e.shiftKey && e.key === "I") ||
+    (e.ctrlKey && e.shiftKey && e.key === "J") ||
+    (e.ctrlKey && e.key === "U")
+  ) {
+    e.preventDefault();
+
+    if (!triggered) {
+      triggered = true;
+
+      console.log("⏳ DevTools sẽ bị khóa sau 10 giây...");
+
+      setTimeout(() => {
+        blockPage();
+      }, 10000); // 10 giây
+    }
   }
-}, 300);
+});
+
+setInterval(() => {
+  const widthDiff = window.outerWidth - window.innerWidth;
+  const heightDiff = window.outerHeight - window.innerHeight;
+
+  if ((widthDiff > 160 || heightDiff > 160) && !triggered) {
+    triggered = true;
+
+      console.log("⏳ DevTools detected (resize)...");
+
+    setTimeout(() => {
+      blockPage();
+    }, 10000);
+  }
+}, 500);
 </script>
 
 </body></html>
