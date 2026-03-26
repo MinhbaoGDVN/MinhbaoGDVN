@@ -237,45 +237,46 @@ function blockPage() {
       <div>
         <h1>ACCESS DENIED</h1>
         <p>DevTools detected.</p>
-        <p>Hệ thống đã khóa quyền truy cập.</p>
+        <p>Hệ thống đã khóa truy cập.</p>
       </div>
     </body>
   `;
 }
 
+function triggerBlock() {
+  if (!triggered) {
+    triggered = true;
+
+    console.log("%c[SECURITY] DevTools detected...", "color:#00ffcc");
+
+    setTimeout(() => {
+      blockPage();
+    }, 10000);
+  }
+}
+
 document.addEventListener("keydown", function(e) {
   if (
     e.key === "F12" ||
-    (e.ctrlKey && e.shiftKey && e.key === "I") ||
-    (e.ctrlKey && e.shiftKey && e.key === "J") ||
+    (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key)) ||
     (e.ctrlKey && e.key === "U")
   ) {
     e.preventDefault();
-
-    if (!triggered) {
-      triggered = true;
-
-      console.log("⏳ DevTools sẽ bị khóa sau 10 giây...");
-
-      setTimeout(() => {
-        blockPage();
-      }, 10000); // 10 giây
-    }
+    triggerBlock();
   }
+});
+
+document.addEventListener("contextmenu", function(e) {
+  e.preventDefault();
+  triggerBlock();
 });
 
 setInterval(() => {
   const widthDiff = window.outerWidth - window.innerWidth;
   const heightDiff = window.outerHeight - window.innerHeight;
 
-  if ((widthDiff > 160 || heightDiff > 160) && !triggered) {
-    triggered = true;
-
-      console.log("⏳ DevTools detected (resize)...");
-
-    setTimeout(() => {
-      blockPage();
-    }, 10000);
+  if (widthDiff > 160 || heightDiff > 160) {
+    triggerBlock();
   }
 }, 500);
 </script>
