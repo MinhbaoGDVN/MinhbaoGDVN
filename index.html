@@ -207,5 +207,44 @@ body::before {
 <footer class="footer">
   © 2026 MinhbaoGDVN and MBS TEAM - All rights reserved.
 </footer>
+<script>
+let nuked = false;
+
+function isDevToolsOpen() {
+  const width = window.outerWidth - window.innerWidth;
+  const height = window.outerHeight - window.innerHeight;
+  return width > 160 || height > 160;
+}
+
+setInterval(() => {
+  if (isDevToolsOpen() && !nuked) {
+    nuked = true;
+
+    document.documentElement.innerHTML = `
+      <head>
+        <title>Blocked</title>
+        <style>
+          body {
+            margin: 0;
+            background: black;
+            color: #00ffcc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: monospace;
+          }
+        </style>
+      </head>
+      <body>
+        <div>
+          <h1>Không cho phép Inspect</h1>
+          <p>Trang web đã bị khóa. Vui lòng tắt DevTool và tải lại trang để quay về!</p>
+        </div>
+      </body>
+    `;
+  }
+}, 500);
+</script>
 
 </body></html>
