@@ -266,9 +266,10 @@ document.addEventListener("keydown", function(e) {
   }
 });
   
-document.addEventListener("contextmenu", function(e) {
-  triggerInstantBlock(e);
-});
+document.addEventListener("click", function(e) {
+  e.preventDefault();
+  e.stopPropagation();
+}, true);
 
 setInterval(() => {
   const w = window.outerWidth - window.innerWidth;
