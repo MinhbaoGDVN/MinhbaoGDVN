@@ -237,20 +237,21 @@ function blockPage() {
       <div>
         <h1>ACCESS DENIED</h1>
         <p>DevTools detected.</p>
-        <p>Hệ thống đã khóa truy cập.</p>
       </div>
     </body>
   `;
 }
 
-function triggerBlock() {
+function triggerInstantBlock(e) {
   if (!triggered) {
     triggered = true;
 
-    console.log("%c[SECURITY] DevTools detected...", "color:#00ffcc");
+    if (e) e.preventDefault();
+
+    blockPage();
 
     setTimeout(() => {
-      blockPage();
+      document.onkeydown = null;
     }, 10000);
   }
 }
@@ -261,24 +262,22 @@ document.addEventListener("keydown", function(e) {
     (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key)) ||
     (e.ctrlKey && e.key === "U")
   ) {
-    e.preventDefault();
-    triggerBlock();
+    triggerInstantBlock(e);
   }
 });
-
+  
 document.addEventListener("contextmenu", function(e) {
-  e.preventDefault();
-  triggerBlock();
+  triggerInstantBlock(e);
 });
 
 setInterval(() => {
-  const widthDiff = window.outerWidth - window.innerWidth;
-  const heightDiff = window.outerHeight - window.innerHeight;
+  const w = window.outerWidth - window.innerWidth;
+  const h = window.outerHeight - window.innerHeight;
 
-  if (widthDiff > 160 || heightDiff > 160) {
-    triggerBlock();
+  if ((w > 160 || h > 160) && !triggered) {
+    triggerInstantBlock();
   }
-}, 500);
+}, 200);
 </script>
 
 </body></html>
