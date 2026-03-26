@@ -207,52 +207,66 @@ body::before {
 <footer class="footer">
   © 2026 MinhbaoGDVN and MBS TEAM - All rights reserved.
 </footer>
+
 <script>
 let nuked = false;
 
-function isDevToolsOpen() {
-  const width = window.outerWidth - window.innerWidth;
-  const height = window.outerHeight - window.innerHeight;
-  return width > 160 || height > 160;
+function detectDevTools() {
+  const widthDiff = window.outerWidth - window.innerWidth;
+  const heightDiff = window.outerHeight - window.innerHeight;
+
+  let start = performance.now();
+  debugger;
+  let end = performance.now();
+
+  return (
+    widthDiff > 160 ||
+    heightDiff > 160 ||
+    (end - start > 100)
+  );
+}
+
+function nukePage() {
+  document.documentElement.innerHTML = `
+    <head>
+      <title>Blocked</title>
+      <style>
+        body {
+          margin: 0;
+          background: black;
+          color: #00ffcc;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          font-family: monospace;
+          text-align: center;
+        }
+        h1 {
+          font-size: 70px;
+          text-shadow: 0 0 20px #00ffcc;
+        }
+        p {
+          opacity: 0.8;
+        }
+      </style>
+    </head>
+    <body>
+      <div>
+        <h1>ACCESS DENIED</h1>
+        <p>DevTools detected.</p>
+        <p>Reload lại nếu muốn quay về.</p>
+      </div>
+    </body>
+  `;
 }
 
 setInterval(() => {
-  if (isDevToolsOpen() && !nuked) {
+  if (!nuked && detectDevTools()) {
     nuked = true;
-
-    document.documentElement.innerHTML = `
-      <head>
-        <title>Blocked</title>
-        <style>
-          body {
-            margin: 0;
-            background: black;
-            color: #00ffcc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: monospace;
-          }
-          h1 {
-            text-align: center;
-            padding: 30px;
-            font-size: 70px;
-            font-weight: bold;
-            color: #00ffcc;
-            text-shadow: 0 0 20px #00ffcc;
-          }
-        </style>
-      </head>
-      <body>
-        <div>
-          <h1>Không cho phép Inspect</h1>
-          <p>Trang web đã bị khóa. Vui lòng tắt DevTool và tải lại trang để quay về!</p>
-        </div>
-      </body>
-    `;
+    nukePage();
   }
-}, 500);
+}, 300);
 </script>
 
 </body></html>
