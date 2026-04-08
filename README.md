@@ -1,5 +1,5 @@
 ## PROJECT
-The Project it a open source code. Please contact me to copy or edit. You can read the terms below.
+The Project it a open source code. You can see the source code. Please contact me to copy or edit. You can read the terms below.
 
 ## CREDIT
 - MinhbaoGDVN
