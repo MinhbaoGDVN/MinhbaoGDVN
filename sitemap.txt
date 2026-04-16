@@ -1,1 +1,8 @@
+README.md
+background.webp
+favicon.png
+google12414d9d4916364f.html
+index.html
+music.mp3
+sitemap.txt
 
