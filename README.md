@@ -1,14 +1,13 @@
 ## PROJECT
-Source code is publicly viewable for reference purposes.
-Any reuse, modification, or redistribution requires permission from the author.
+This repository is provided for viewing and reference only.
+The source code is not open source and is not licensed for reuse.
 
 ## CREDIT
 - MinhbaoGDVN
 - Some people on team
 
 ## LICENSE
-
 © 2026 MinhbaoGDVN and MBS TEAM. All rights reserved.
 <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Flag_of_Vietnam.svg" alt="Vietnam flag" width="25" style="vertical-align:middle;">
 <br>
-This source code is proprietary and may not be used, copied, modified, or distributed without permission.
+No part of this project may be copied, modified, distributed, or used without explicit permission from the author.
